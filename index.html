@@ -1,0 +1,1321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rakesh Sainik — Poet. Novelist. Artist.</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #FAF7F2;
+    --warm-white: #F5F0E8;
+    --ink: #1C1814;
+    --ink-light: #3D3530;
+    --terracotta: #C4704A;
+    --sage: #7A8C6E;
+    --gold: #B8956A;
+    --dust: #E8DDD0;
+    --muted: #8A7F76;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Jost', sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    font-weight: 300;
+    overflow-x: hidden;
+    cursor: default;
+  }
+
+  /* GRAIN OVERLAY */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 1000;
+    opacity: 0.4;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 24px 60px;
+    background: rgba(250, 247, 242, 0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(184, 149, 106, 0.15);
+  }
+
+  .nav-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.2rem;
+    font-weight: 400;
+    letter-spacing: 0.12em;
+    color: var(--ink);
+    text-transform: uppercase;
+    text-decoration: none;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 40px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-light);
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+
+  .nav-links a:hover { color: var(--terracotta); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-left {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 120px 60px 80px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .hero-tag {
+    font-size: 0.68rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--terracotta);
+    margin-bottom: 28px;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.3s forwards;
+  }
+
+  .hero-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(4rem, 7vw, 7.5rem);
+    font-weight: 300;
+    line-height: 0.9;
+    color: var(--ink);
+    margin-bottom: 32px;
+    opacity: 0;
+    animation: fadeUp 0.9s 0.5s forwards;
+  }
+
+  .hero-name em {
+    font-style: italic;
+    color: var(--terracotta);
+  }
+
+  .hero-descriptor {
+    font-size: 0.8rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 48px;
+    opacity: 0;
+    animation: fadeUp 0.9s 0.7s forwards;
+  }
+
+  .hero-descriptor span {
+    margin: 0 12px;
+    color: var(--gold);
+  }
+
+  .hero-cta {
+    display: inline-block;
+    font-size: 0.72rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink);
+    text-decoration: none;
+    border-bottom: 1px solid var(--terracotta);
+    padding-bottom: 4px;
+    transition: color 0.3s, border-color 0.3s;
+    opacity: 0;
+    animation: fadeUp 0.9s 0.9s forwards;
+  }
+
+  .hero-cta:hover { color: var(--terracotta); }
+
+  .hero-right {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-painting {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, #D4A882 0%, #B8956A 25%, #8C6E52 50%, #C4704A 75%, #7A5C45 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .hero-painting::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to right, var(--cream) 0%, transparent 15%);
+  }
+
+  .painting-placeholder {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1rem;
+    font-style: italic;
+    color: rgba(255,255,255,0.5);
+    letter-spacing: 0.1em;
+    z-index: 1;
+  }
+
+  .hero-scroll {
+    position: absolute;
+    bottom: 48px;
+    left: 60px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    opacity: 0;
+    animation: fadeUp 1s 1.2s forwards;
+  }
+
+  .scroll-line {
+    width: 40px;
+    height: 1px;
+    background: var(--gold);
+    animation: expandLine 1.5s 1.5s forwards;
+    transform-origin: left;
+    transform: scaleX(0);
+  }
+
+  /* SECTIONS */
+  section { position: relative; }
+
+  .section-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--terracotta);
+    margin-bottom: 16px;
+  }
+
+  /* BOOKS */
+  .books-section {
+    padding: 120px 60px;
+    background: var(--warm-white);
+  }
+
+  .books-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 64px;
+  }
+
+  .books-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.5rem, 4vw, 4rem);
+    font-weight: 300;
+    line-height: 1.1;
+    color: var(--ink);
+  }
+
+  .books-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 32px;
+  }
+
+  .book-card {
+    position: relative;
+    cursor: pointer;
+  }
+
+  .book-cover {
+    aspect-ratio: 2/3;
+    margin-bottom: 20px;
+    position: relative;
+    overflow: hidden;
+    border-radius: 2px;
+  }
+
+  .book-cover-inner {
+    width: 100%;
+    height: 100%;
+    transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .book-card:hover .book-cover-inner { transform: scale(1.04); }
+
+  .book-1 .book-cover-inner { background: linear-gradient(160deg, #2C3E35 0%, #4A6355 40%, #7A956E 100%); }
+  .book-2 .book-cover-inner { background: linear-gradient(160deg, #3D2B1F 0%, #6B4A35 40%, #C4704A 100%); }
+  .book-3 .book-cover-inner { background: linear-gradient(160deg, #1C2535 0%, #2E3F5C 40%, #7A8CA8 100%); }
+  .book-4 .book-cover-inner { background: linear-gradient(160deg, #2A2530 0%, #4A3D50 40%, #8C7A9A 100%); }
+
+  .book-cover-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1rem;
+    font-style: italic;
+    color: rgba(255,255,255,0.4);
+    text-align: center;
+    padding: 20px;
+  }
+
+  .book-coming-soon {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    background: var(--terracotta);
+    color: white;
+    font-size: 0.58rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 1px;
+  }
+
+  .book-genre {
+    font-size: 0.62rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+
+  .book-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem;
+    font-weight: 400;
+    color: var(--ink);
+    margin-bottom: 4px;
+  }
+
+  .book-year {
+    font-size: 0.72rem;
+    color: var(--muted);
+  }
+
+  /* EXCERPT / PEEK */
+  .excerpt-section {
+    padding: 140px 60px;
+    background: var(--ink);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .excerpt-section::before {
+    content: '"';
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 40vw;
+    color: rgba(255,255,255,0.02);
+    position: absolute;
+    top: -10%;
+    left: -5%;
+    line-height: 1;
+    pointer-events: none;
+  }
+
+  .excerpt-inner {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .excerpt-section .section-label {
+    color: var(--gold);
+    margin-bottom: 48px;
+  }
+
+  .excerpt-tabs {
+    display: flex;
+    gap: 32px;
+    justify-content: center;
+    margin-bottom: 64px;
+  }
+
+  .excerpt-tab {
+    font-size: 0.72rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.35);
+    cursor: pointer;
+    padding-bottom: 8px;
+    border-bottom: 1px solid transparent;
+    transition: all 0.3s;
+    background: none;
+    border: none;
+    border-bottom: 1px solid transparent;
+  }
+
+  .excerpt-tab.active {
+    color: var(--gold);
+    border-bottom-color: var(--gold);
+  }
+
+  .excerpt-content { display: none; }
+  .excerpt-content.active { display: block; }
+
+  .excerpt-poem {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.4rem, 2.5vw, 2rem);
+    font-weight: 300;
+    font-style: italic;
+    line-height: 1.8;
+    color: rgba(255,255,255,0.88);
+    margin-bottom: 32px;
+  }
+
+  .excerpt-prose {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.1rem, 1.8vw, 1.4rem);
+    font-weight: 300;
+    line-height: 1.9;
+    color: rgba(255,255,255,0.82);
+    text-align: left;
+    margin-bottom: 32px;
+  }
+
+  .excerpt-attribution {
+    font-size: 0.68rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--terracotta);
+  }
+
+  /* ABOUT */
+  .about-section {
+    padding: 120px 60px;
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    gap: 80px;
+    align-items: center;
+    background: var(--cream);
+  }
+
+  .about-image-wrap {
+    position: relative;
+  }
+
+  .about-image {
+    aspect-ratio: 3/4;
+    background: linear-gradient(160deg, #C4704A 0%, #8C5235 50%, #3D2B1F 100%);
+    border-radius: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .about-image-label {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    color: rgba(255,255,255,0.3);
+    font-size: 0.9rem;
+  }
+
+  .about-accent {
+    position: absolute;
+    bottom: -24px;
+    right: -24px;
+    width: 60%;
+    height: 60%;
+    border: 1px solid var(--gold);
+    border-radius: 2px;
+    z-index: -1;
+  }
+
+  .about-content .section-label { margin-bottom: 24px; }
+
+  .about-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem, 3.5vw, 3rem);
+    font-weight: 300;
+    line-height: 1.2;
+    color: var(--ink);
+    margin-bottom: 32px;
+  }
+
+  .about-text {
+    font-size: 0.95rem;
+    line-height: 1.9;
+    color: var(--ink-light);
+    margin-bottom: 20px;
+  }
+
+  .about-stats {
+    display: flex;
+    gap: 40px;
+    margin-top: 48px;
+    padding-top: 40px;
+    border-top: 1px solid var(--dust);
+  }
+
+  .stat-number {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.5rem;
+    font-weight: 300;
+    color: var(--terracotta);
+    display: block;
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+
+  .stat-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  /* WRITING / REVIEWS */
+  .writing-section {
+    padding: 120px 60px;
+    background: var(--warm-white);
+  }
+
+  .writing-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 56px;
+  }
+
+  .writing-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem, 3.5vw, 3.5rem);
+    font-weight: 300;
+    color: var(--ink);
+  }
+
+  .view-all {
+    font-size: 0.68rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--terracotta);
+    text-decoration: none;
+    border-bottom: 1px solid var(--terracotta);
+    padding-bottom: 3px;
+  }
+
+  .writing-grid {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr;
+    gap: 2px;
+  }
+
+  .writing-card {
+    background: white;
+    padding: 40px 36px;
+    cursor: pointer;
+    transition: background 0.3s;
+    position: relative;
+  }
+
+  .writing-card:hover { background: var(--dust); }
+
+  .writing-card.featured {
+    grid-row: span 2;
+    background: var(--ink);
+    color: white;
+  }
+
+  .writing-card.featured:hover { background: var(--ink-light); }
+
+  .writing-type {
+    font-size: 0.62rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--terracotta);
+    margin-bottom: 16px;
+  }
+
+  .writing-card.featured .writing-type { color: var(--gold); }
+
+  .writing-card-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.3rem;
+    font-weight: 400;
+    line-height: 1.3;
+    color: var(--ink);
+    margin-bottom: 12px;
+  }
+
+  .writing-card.featured .writing-card-title {
+    font-size: 1.8rem;
+    color: white;
+    margin-bottom: 20px;
+  }
+
+  .writing-excerpt {
+    font-size: 0.85rem;
+    line-height: 1.7;
+    color: var(--muted);
+  }
+
+  .writing-card.featured .writing-excerpt {
+    color: rgba(255,255,255,0.6);
+    font-size: 0.9rem;
+  }
+
+  .writing-date {
+    font-size: 0.62rem;
+    letter-spacing: 0.15em;
+    color: var(--muted);
+    margin-top: 20px;
+  }
+
+  /* CANVAS / PAINTINGS */
+  .canvas-section {
+    padding: 120px 60px;
+    background: var(--cream);
+  }
+
+  .canvas-header {
+    text-align: center;
+    margin-bottom: 64px;
+  }
+
+  .canvas-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.5rem, 4vw, 4rem);
+    font-weight: 300;
+    color: var(--ink);
+    margin-bottom: 16px;
+  }
+
+  .canvas-subtitle {
+    font-size: 0.8rem;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+  }
+
+  .paintings-row {
+    display: flex;
+    gap: 16px;
+    overflow-x: auto;
+    padding-bottom: 20px;
+    scrollbar-width: none;
+  }
+
+  .paintings-row::-webkit-scrollbar { display: none; }
+
+  .painting-item {
+    flex: 0 0 auto;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    border-radius: 2px;
+    transition: transform 0.4s;
+  }
+
+  .painting-item:hover { transform: translateY(-6px); }
+
+  .painting-item:nth-child(1) { width: 280px; height: 340px; }
+  .painting-item:nth-child(2) { width: 220px; height: 300px; margin-top: 40px; }
+  .painting-item:nth-child(3) { width: 260px; height: 360px; }
+  .painting-item:nth-child(4) { width: 200px; height: 280px; margin-top: 60px; }
+  .painting-item:nth-child(5) { width: 240px; height: 320px; margin-top: 20px; }
+
+  .painting-bg {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    padding: 20px;
+  }
+
+  .p1 { background: linear-gradient(145deg, #E8A87C 0%, #C4704A 40%, #7A3D25 100%); }
+  .p2 { background: linear-gradient(145deg, #7A956E 0%, #4A6355 40%, #2C3E35 100%); }
+  .p3 { background: linear-gradient(145deg, #7A8CA8 0%, #4A5C7A 40%, #1C2535 100%); }
+  .p4 { background: linear-gradient(145deg, #D4B896 0%, #B8956A 40%, #8C6E45 100%); }
+  .p5 { background: linear-gradient(145deg, #A87C8C 0%, #7A4A5C 40%, #3D2530 100%); }
+
+  .painting-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.5) 0%, transparent 50%);
+  }
+
+  .painting-label {
+    position: relative;
+    z-index: 1;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.85rem;
+    font-style: italic;
+    color: rgba(255,255,255,0.8);
+  }
+
+  /* TRAVEL */
+  .travel-section {
+    padding: 120px 60px;
+    background: var(--warm-white);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .travel-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+
+  .travel-quote {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.8rem, 3vw, 2.8rem);
+    font-weight: 300;
+    font-style: italic;
+    line-height: 1.4;
+    color: var(--ink);
+    position: relative;
+  }
+
+  .travel-quote::before {
+    content: '—';
+    color: var(--terracotta);
+    margin-right: 12px;
+  }
+
+  .travel-spots {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  .travel-card {
+    aspect-ratio: 4/3;
+    border-radius: 2px;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+  }
+
+  .travel-card:first-child {
+    grid-column: span 2;
+    aspect-ratio: 16/7;
+  }
+
+  .tc1 { background: linear-gradient(135deg, #C4704A, #7A3D25); }
+  .tc2 { background: linear-gradient(135deg, #4A6355, #2C3E35); }
+  .tc3 { background: linear-gradient(135deg, #4A5C7A, #1C2535); }
+
+  .travel-card-label {
+    position: absolute;
+    bottom: 16px;
+    left: 16px;
+    font-size: 0.68rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.75);
+  }
+
+  /* PRESS KIT */
+  .press-section {
+    padding: 100px 60px;
+    background: var(--dust);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+
+  .press-content .section-label { margin-bottom: 20px; }
+
+  .press-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem, 3vw, 3rem);
+    font-weight: 300;
+    color: var(--ink);
+    margin-bottom: 24px;
+  }
+
+  .press-text {
+    font-size: 0.9rem;
+    line-height: 1.8;
+    color: var(--ink-light);
+    margin-bottom: 40px;
+  }
+
+  .press-items {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .press-item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px 20px;
+    background: white;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: background 0.3s;
+    text-decoration: none;
+  }
+
+  .press-item:hover { background: var(--cream); }
+
+  .press-icon {
+    width: 32px;
+    height: 32px;
+    background: var(--terracotta);
+    border-radius: 1px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 0.7rem;
+    color: white;
+    letter-spacing: 0.05em;
+  }
+
+  .press-item-label {
+    font-size: 0.78rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink);
+  }
+
+  .press-reviews {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .review-card {
+    background: white;
+    padding: 32px;
+    border-radius: 2px;
+    border-left: 3px solid var(--terracotta);
+  }
+
+  .review-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem;
+    font-style: italic;
+    line-height: 1.6;
+    color: var(--ink);
+    margin-bottom: 16px;
+  }
+
+  .review-source {
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  /* CONTACT */
+  .contact-section {
+    padding: 120px 60px;
+    background: var(--ink);
+    text-align: center;
+  }
+
+  .contact-section .section-label { color: var(--gold); margin-bottom: 24px; }
+
+  .contact-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.5rem, 5vw, 5rem);
+    font-weight: 300;
+    color: white;
+    margin-bottom: 48px;
+    line-height: 1.1;
+  }
+
+  .contact-title em {
+    font-style: italic;
+    color: var(--terracotta);
+  }
+
+  .newsletter-form {
+    display: flex;
+    gap: 0;
+    max-width: 480px;
+    margin: 0 auto 48px;
+  }
+
+  .newsletter-input {
+    flex: 1;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-right: none;
+    padding: 16px 24px;
+    font-family: 'Jost', sans-serif;
+    font-size: 0.85rem;
+    color: white;
+    outline: none;
+    border-radius: 0;
+  }
+
+  .newsletter-input::placeholder { color: rgba(255,255,255,0.35); }
+
+  .newsletter-btn {
+    background: var(--terracotta);
+    border: none;
+    padding: 16px 28px;
+    font-family: 'Jost', sans-serif;
+    font-size: 0.68rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: white;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+
+  .newsletter-btn:hover { background: #B05F3A; }
+
+  .contact-links {
+    display: flex;
+    gap: 32px;
+    justify-content: center;
+  }
+
+  .contact-link {
+    font-size: 0.68rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.45);
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+
+  .contact-link:hover { color: var(--gold); }
+
+  /* FOOTER */
+  footer {
+    background: #111008;
+    padding: 32px 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .footer-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.9rem;
+    color: rgba(255,255,255,0.35);
+    letter-spacing: 0.15em;
+  }
+
+  .footer-copy {
+    font-size: 0.65rem;
+    color: rgba(255,255,255,0.2);
+    letter-spacing: 0.1em;
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes expandLine {
+    to { transform: scaleX(1); }
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* MOBILE */
+  @media (max-width: 768px) {
+    nav { padding: 20px 24px; }
+    .nav-links { display: none; }
+    .hero { grid-template-columns: 1fr; }
+    .hero-right { display: none; }
+    .hero-left { padding: 100px 24px 60px; }
+    .books-section, .excerpt-section, .about-section, .writing-section,
+    .canvas-section, .travel-section, .press-section, .contact-section { padding: 80px 24px; }
+    .books-grid { grid-template-columns: repeat(2, 1fr); }
+    .about-section { grid-template-columns: 1fr; }
+    .about-image-wrap { display: none; }
+    .writing-grid { grid-template-columns: 1fr; }
+    .writing-card.featured { grid-row: span 1; }
+    .travel-inner { grid-template-columns: 1fr; }
+    .press-section { grid-template-columns: 1fr; }
+    .books-header, .writing-header { flex-direction: column; align-items: flex-start; gap: 16px; }
+    footer { flex-direction: column; gap: 12px; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">Rakesh Sainik</a>
+  <ul class="nav-links">
+    <li><a href="#books">Books</a></li>
+    <li><a href="#work">My Work</a></li>
+    <li><a href="#writing">Writing</a></li>
+    <li><a href="#canvas">Canvas</a></li>
+    <li><a href="#travel">Journal</a></li>
+    <li><a href="#press">Press</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <p class="hero-tag">Poet · Novelist · Artist</p>
+    <h1 class="hero-name">Rakesh<br><em>Sainik</em></h1>
+    <p class="hero-descriptor">Poetry <span>·</span> Fiction <span>·</span> Canvas <span>·</span> Roads</p>
+    <a href="#books" class="hero-cta">Explore the work</a>
+    <div class="hero-scroll">
+      <div class="scroll-line"></div>
+      Scroll
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-painting">
+      <span class="painting-placeholder">Your painting here</span>
+    </div>
+  </div>
+</section>
+
+<!-- BOOKS -->
+<section class="books-section" id="books">
+  <div class="books-header reveal">
+    <div>
+      <p class="section-label">The Shelf</p>
+      <h2 class="books-title">Published Works<br>& What's Coming</h2>
+    </div>
+    <a href="#" class="view-all">All Books</a>
+  </div>
+  <div class="books-grid reveal">
+    <div class="book-card book-1">
+      <div class="book-cover">
+        <div class="book-cover-inner">
+          <span class="book-cover-text">Poetry Collection</span>
+        </div>
+      </div>
+      <p class="book-genre">Poetry</p>
+      <h3 class="book-title">Title of Poetry Book</h3>
+      <p class="book-year">Published · 2023</p>
+    </div>
+    <div class="book-card book-2">
+      <div class="book-cover">
+        <div class="book-cover-inner">
+          <span class="book-cover-text">Novel</span>
+        </div>
+      </div>
+      <p class="book-genre">Fiction</p>
+      <h3 class="book-title">Title of Novel</h3>
+      <p class="book-year">Published · 2024</p>
+    </div>
+    <div class="book-card book-3">
+      <div class="book-cover">
+        <div class="book-cover-inner">
+          <span class="book-cover-text">Upcoming</span>
+        </div>
+        <span class="book-coming-soon">Coming Soon</span>
+      </div>
+      <p class="book-genre">Fiction</p>
+      <h3 class="book-title">Untitled Work III</h3>
+      <p class="book-year">In Pipeline</p>
+    </div>
+    <div class="book-card book-4">
+      <div class="book-cover">
+        <div class="book-cover-inner">
+          <span class="book-cover-text">Upcoming</span>
+        </div>
+        <span class="book-coming-soon">Coming Soon</span>
+      </div>
+      <p class="book-genre">Poetry / Prose</p>
+      <h3 class="book-title">Untitled Work IV</h3>
+      <p class="book-year">In Pipeline</p>
+    </div>
+  </div>
+</section>
+
+<!-- EXCERPT / PEEK INTO WORK -->
+<section class="excerpt-section" id="work">
+  <div class="excerpt-inner">
+    <p class="section-label">A Peek Into My Work</p>
+    <div class="excerpt-tabs">
+      <button class="excerpt-tab active" onclick="switchTab('poetry', this)">Poetry</button>
+      <button class="excerpt-tab" onclick="switchTab('prose', this)">Fiction</button>
+    </div>
+    <div class="excerpt-content active" id="poetry">
+      <p class="excerpt-poem">
+        The road does not ask<br>
+        where you have been —<br>
+        only where your feet<br>
+        are willing to go next.<br><br>
+        And the silence between<br>
+        two mountains<br>
+        is not empty —<br>
+        it is listening.
+      </p>
+      <p class="excerpt-attribution">— From "Title of Poetry Book"</p>
+    </div>
+    <div class="excerpt-content" id="prose">
+      <p class="excerpt-prose">
+        She had lived in that city long enough to know its moods — the way the old bazaar smelled different before rain, how the pigeons on the minaret always knew before anyone else that something was about to change. When the letter arrived, she read it twice, then folded it carefully along its original crease, as if putting a difficult thought back where it came from.
+      </p>
+      <p class="excerpt-attribution">— From "Title of Novel"</p>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about-section" id="about">
+  <div class="about-image-wrap reveal">
+    <div class="about-image">
+      <span class="about-image-label">Author photo</span>
+    </div>
+    <div class="about-accent"></div>
+  </div>
+  <div class="about-content reveal">
+    <p class="section-label">About</p>
+    <h2 class="about-title">One writer.<br>Many worlds.</h2>
+    <p class="about-text">Rakesh Sainik writes poetry and fiction that navigate the space between the interior and the open road — the private self and the landscape that shapes it. His work has been described as quietly relentless, drawing from travel, memory, and the textures of everyday life in India.</p>
+    <p class="about-text">He is the author of one poetry collection and one novel, with two more works in progress. He also paints, occasionally, and believes the two practices are the same impulse wearing different clothes.</p>
+    <div class="about-stats">
+      <div>
+        <span class="stat-number">2</span>
+        <span class="stat-label">Books Published</span>
+      </div>
+      <div>
+        <span class="stat-number">2</span>
+        <span class="stat-label">In Pipeline</span>
+      </div>
+      <div>
+        <span class="stat-number">5</span>
+        <span class="stat-label">Paintings & Counting</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WRITING / REVIEWS -->
+<section class="writing-section" id="writing">
+  <div class="writing-header reveal">
+    <div>
+      <p class="section-label">Writing</p>
+      <h2 class="writing-title">Reviews, Essays<br>& Dispatches</h2>
+    </div>
+    <a href="#" class="view-all">All Writing</a>
+  </div>
+  <div class="writing-grid reveal">
+    <div class="writing-card featured">
+      <p class="writing-type">Book Review</p>
+      <h3 class="writing-card-title">On Reading a Novel You Wish You Had Written</h3>
+      <p class="writing-excerpt">Some books arrive at the right moment and rearrange something in you. This is about one such book — what it does, how it does it, and why it matters that someone finally wrote it.</p>
+      <p class="writing-date">May 2026</p>
+    </div>
+    <div class="writing-card">
+      <p class="writing-type">Essay</p>
+      <h3 class="writing-card-title">Why I Write in Moving Vehicles</h3>
+      <p class="writing-excerpt">Train journeys, highway buses, and the particular clarity of going somewhere.</p>
+      <p class="writing-date">April 2026</p>
+    </div>
+    <div class="writing-card">
+      <p class="writing-type">Book Review</p>
+      <h3 class="writing-card-title">The Weight of Silence in Contemporary Indian Poetry</h3>
+      <p class="writing-excerpt">A look at three recent collections and what they say — and don't.</p>
+      <p class="writing-date">March 2026</p>
+    </div>
+    <div class="writing-card">
+      <p class="writing-type">Dispatch</p>
+      <h3 class="writing-card-title">Somewhere in the Ghats: Notes from a Week Without Wi-Fi</h3>
+      <p class="writing-excerpt">What happens when the algorithm stops and the world begins.</p>
+      <p class="writing-date">February 2026</p>
+    </div>
+    <div class="writing-card">
+      <p class="writing-type">Essay</p>
+      <h3 class="writing-card-title">On Revision: How Killing Your Darlings Feels and Why You Should Do It Anyway</h3>
+      <p class="writing-excerpt">A writer's meditation on the difficulty and necessity of letting go.</p>
+      <p class="writing-date">January 2026</p>
+    </div>
+  </div>
+</section>
+
+<!-- ON CANVAS -->
+<section class="canvas-section" id="canvas">
+  <div class="canvas-header reveal">
+    <p class="section-label">On Canvas</p>
+    <h2 class="canvas-title">The Other Language</h2>
+    <p class="canvas-subtitle">When words aren't enough — or are too many</p>
+  </div>
+  <div class="paintings-row reveal">
+    <div class="painting-item">
+      <div class="painting-bg p1">
+        <div class="painting-overlay"></div>
+        <span class="painting-label">Untitled I</span>
+      </div>
+    </div>
+    <div class="painting-item">
+      <div class="painting-bg p2">
+        <div class="painting-overlay"></div>
+        <span class="painting-label">Untitled II</span>
+      </div>
+    </div>
+    <div class="painting-item">
+      <div class="painting-bg p3">
+        <div class="painting-overlay"></div>
+        <span class="painting-label">Untitled III</span>
+      </div>
+    </div>
+    <div class="painting-item">
+      <div class="painting-bg p4">
+        <div class="painting-overlay"></div>
+        <span class="painting-label">Untitled IV</span>
+      </div>
+    </div>
+    <div class="painting-item">
+      <div class="painting-bg p5">
+        <div class="painting-overlay"></div>
+        <span class="painting-label">Untitled V</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TRAVEL / JOURNAL -->
+<section class="travel-section" id="travel">
+  <div class="travel-inner">
+    <div class="reveal">
+      <p class="section-label">Journal</p>
+      <blockquote class="travel-quote">
+        "Every place you leave behind becomes a chapter you didn't know you were writing."
+      </blockquote>
+    </div>
+    <div class="travel-spots reveal">
+      <div class="travel-card tc1">
+        <span class="travel-card-label">Rajasthan, 2025</span>
+      </div>
+      <div class="travel-card tc2">
+        <span class="travel-card-label">Northeast</span>
+      </div>
+      <div class="travel-card tc3">
+        <span class="travel-card-label">The Ghats</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRESS / REVIEWS -->
+<section class="press-section" id="press">
+  <div class="press-content reveal">
+    <p class="section-label">Press Kit</p>
+    <h2 class="press-title">For Media &<br>Event Organisers</h2>
+    <p class="press-text">Everything you need to write about, introduce, or feature Rakesh Sainik — available to download directly.</p>
+    <div class="press-items">
+      <a href="#" class="press-item">
+        <div class="press-icon">PDF</div>
+        <span class="press-item-label">Author Bio (Short & Long)</span>
+      </a>
+      <a href="#" class="press-item">
+        <div class="press-icon">IMG</div>
+        <span class="press-item-label">Author Photos (Hi-Res)</span>
+      </a>
+      <a href="#" class="press-item">
+        <div class="press-icon">IMG</div>
+        <span class="press-item-label">Book Cover Files</span>
+      </a>
+      <a href="#" class="press-item">
+        <div class="press-icon">PDF</div>
+        <span class="press-item-label">One-Page Press Sheet</span>
+      </a>
+    </div>
+  </div>
+  <div class="press-reviews reveal">
+    <p class="section-label">What They Said</p>
+    <div class="review-card">
+      <p class="review-text">"A voice that moves between stillness and restlessness with rare ease. Sainik writes as though the page itself is a journey."</p>
+      <p class="review-source">— Publication Name</p>
+    </div>
+    <div class="review-card">
+      <p class="review-text">"His fiction carries the weight of places remembered and the lightness of things not yet said. A remarkable debut."</p>
+      <p class="review-source">— Literary Journal</p>
+    </div>
+    <div class="review-card">
+      <p class="review-text">"Poetry that does not perform its depth — it simply has it."</p>
+      <p class="review-source">— Book Reviewer, Publication</p>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact-section" id="contact">
+  <p class="section-label">Stay in Touch</p>
+  <h2 class="contact-title">Letters are still<br>the finest <em>form.</em></h2>
+  <div class="newsletter-form">
+    <input type="email" class="newsletter-input" placeholder="Your email address">
+    <button class="newsletter-btn">Subscribe</button>
+  </div>
+  <div class="contact-links">
+    <a href="mailto:hello@rakeshsainik.com" class="contact-link">hello@rakeshsainik.com</a>
+    <a href="#" class="contact-link">Instagram</a>
+    <a href="#" class="contact-link">Goodreads</a>
+    <a href="#" class="contact-link">LinkedIn</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span class="footer-name">Rakesh Sainik</span>
+  <span class="footer-copy">© 2026 · All rights reserved</span>
+</footer>
+
+<script>
+  // Tab switching for excerpt section
+  function switchTab(id, btn) {
+    document.querySelectorAll('.excerpt-content').forEach(el => el.classList.remove('active'));
+    document.querySelectorAll('.excerpt-tab').forEach(el => el.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    btn.classList.add('active');
+  }
+
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        // Stagger children if they have reveal class siblings
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
+
+  reveals.forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
